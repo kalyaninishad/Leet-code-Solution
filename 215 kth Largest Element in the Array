@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to swap two elements
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// Min-heapify function
+void heapify(int arr[], int n, int i) {
+    int smallest = i;      // root
+    int left = 2 * i + 1;  // left child
+    int right = 2 * i + 2; // right child
+
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+
+    if (smallest != i) {
+        swap(&arr[i], &arr[smallest]);
+        heapify(arr, n, smallest);
+    }
+}
+
+// Function to find kth largest element
+int findKthLargest(int nums[], int n, int k) {
+    int heap[k];
+    int heapSize = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (heapSize < k) {
+            heap[heapSize++] = nums[i];
+            // Build heap when size reaches k
+            if (heapSize == k) {
+                for (int j = k / 2 - 1; j >= 0; j--)
+                    heapify(heap, k, j);
+            }
+        } else if (nums[i] > heap[0]) {
+            // Replace root if current number is larger
+            heap[0] = nums[i];
+            heapify(heap, k, 0);
+        }
+    }
+
+    return heap[0]; // Root of heap is kth largest
+}
+
