@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int convert(string s) {
+        int value = 0;
+        for (char c : s) {
+            value = value * 10 + (c - 'a');   
+        }
+        return value;
+    }
+
+    bool isSumEqual(string firstWord, string secondWord, string targetWord) {
+        int v1 = convert(firstWord);
+        int v2 = convert(secondWord);
+        int v3 = convert(targetWord);
+
+        return (v1 + v2) == v3;
+    }
+};
